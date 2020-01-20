@@ -29,6 +29,7 @@ Game::~Game()
 void Game::createGameObjects()
 {
 	m_pShip = new ship();
+	m_pShip->setMaxSpeed(5.0f);
 
 	m_pTarget = new Target();
 }
@@ -100,11 +101,7 @@ void Game::render()
 
 void Game::update()
 {
-	glm::vec2 steeringVelocity = m_pTarget->getPosition() - m_pShip->getPosition();
-	steeringVelocity = Util::normalize(steeringVelocity);
-
 	
-	m_pShip->setVelocity(steeringVelocity);
 
 	
 	
@@ -156,19 +153,20 @@ void Game::handleEvents()
 					m_pTarget->setVelocity(glm::vec2(1.0f, m_pTarget->getVelocity().y));
 					break;
 				case SDLK_0:
-					m_pShip->setState(SteeringState::IDLE);
+					m_pShip->setSteeringState(SteeringState::IDLE);
 					break;
 				case SDLK_1:
-					m_pShip->setState(SteeringState::SEEK);
+					m_pShip->setSteeringState(SteeringState::SEEK);
+					m_pShip->setTarget(m_pTarget->getPosition());
 					break;
 				case SDLK_2:
-					m_pShip->setState(SteeringState::ARRIVE);
+					m_pShip->setSteeringState(SteeringState::ARRIVE);
 					break;
 				case SDLK_3:
-					m_pShip->setState(SteeringState::AVOID);
+					m_pShip->setSteeringState(SteeringState::AVOID);
 					break;
 				case SDLK_4:
-					m_pShip->setState(SteeringState::FLEE);
+					m_pShip->setSteeringState(SteeringState::FLEE);
 					break;
 				case SDLK_RIGHT:
 					m_pShip->turnRight();

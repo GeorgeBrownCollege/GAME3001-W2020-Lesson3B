@@ -18,7 +18,7 @@ ship::ship()
 	//m_reset();
 	setIsColliding(false);
 	setType(GameObjectType::SHIP);
-	setState(SteeringState::IDLE);
+	setSteeringState(SteeringState::IDLE);
 	m_maxSpeed = 1.0f;
 	m_currentDirection = 0.0;
 	m_turnSpeed = 2.0f;
@@ -42,14 +42,17 @@ void ship::draw()
 
 void ship::m_checkState()
 {
-	switch (getState())
+	switch (getSteeringState())
 	{
 	case SteeringState::IDLE:
-		m_move();
+		//m_move();
 		break;
 	case SteeringState::SEEK:
 		m_seek();
-		//m_move();
+		m_move();
+		m_checkBounds();
+		m_checkArrival();
+		
 		break;
 	case SteeringState::ARRIVE:
 		break;
@@ -62,8 +65,7 @@ void ship::m_checkState()
 
 void ship::update()
 {
-	m_move();
-	m_checkBounds();
+	m_checkState();
 }
 
 void ship::clean()
@@ -84,8 +86,28 @@ void ship::turnLeft()
 void ship::m_move()
 {
 
-	glm::vec2 newPosition = getPosition() + getVelocity();
+	glm::vec2 newPosition = getPosition() + getVelocity() * m_maxSpeed;
 	setPosition(newPosition);
+}
+
+glm::vec2 ship::getTarget()
+{
+	return m_target;
+}
+
+float ship::getMaxSpeed()
+{
+	return m_maxSpeed;
+}
+
+void ship::setMaxSpeed(float newMaxSpeed)
+{
+	m_maxSpeed = newMaxSpeed;
+}
+
+void ship::setTarget(glm::vec2 newTarget)
+{
+	m_target = newTarget;
 }
 
 void ship::m_checkBounds()
@@ -120,5 +142,19 @@ void ship::m_reset()
 
 void ship::m_seek()
 {
-	
+	glm::vec2 steeringVelocity = m_target - getPosition();
+	steeringVelocity = Util::normalize(steeringVelocity);
+
+	setVelocity(steeringVelocity);
+}
+
+void ship::m_checkArrival()
+{
+	if(getSteeringState() != IDLE)
+	{
+		if(Util::distance(getPosition(), m_target) <= 3.0f)
+		{
+			setSteeringState(IDLE);
+		}
+	}
 }

@@ -34,7 +34,7 @@ public:
 	int getHeight();
 	bool getIsColliding();
 	GameObjectType getType();
-	SteeringState getState();
+	SteeringState getSteeringState();
 
 	// setters for common variables
 	void setPosition(glm::vec2 newPosition);
@@ -43,7 +43,7 @@ public:
 	void setVelocity(glm::vec2 newVelocity);
 	void setIsColliding(bool collision);
 	void setType(GameObjectType newType);
-	void setState(SteeringState newState);
+	void setSteeringState(SteeringState newState);
 	void setAcceleration(glm::vec2 newAcceleration);
 
 

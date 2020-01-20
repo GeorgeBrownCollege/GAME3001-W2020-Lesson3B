@@ -6,8 +6,7 @@
 #include "TextureManager.h"
 #include "SoundManager.h"
 
-class ship :
-	public GameObject
+class ship : public GameObject
 {
 public:
 	ship();
@@ -24,6 +23,14 @@ public:
 	void turnLeft();
 	void m_move();
 
+	//getters
+	glm::vec2 getTarget();
+	float getMaxSpeed();
+
+	//setters
+	void setTarget(glm::vec2 newTarget);
+	void setMaxSpeed(float newMaxSpeed);
+
 private:
 	
 	void m_checkState();
@@ -33,11 +40,13 @@ private:
 
 	// steering behaviours
 	void m_seek();
+	void m_checkArrival();
 	
 	float m_maxSpeed;
 	double m_currentDirection;
 	float m_turnSpeed;
 	float m_steerForce;
+	
 	glm::vec2 m_target;
 };
 

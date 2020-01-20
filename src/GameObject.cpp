@@ -59,7 +59,7 @@ GameObjectType GameObject::getType()
 	return m_type;
 }
 
-SteeringState GameObject::getState()
+SteeringState GameObject::getSteeringState()
 {
 	return m_state;
 }
@@ -95,7 +95,7 @@ void GameObject::setType(GameObjectType newType)
 	m_type = newType;
 }
 
-void GameObject::setState(SteeringState newState)
+void GameObject::setSteeringState(SteeringState newState)
 {
 	m_state = newState;
 }
