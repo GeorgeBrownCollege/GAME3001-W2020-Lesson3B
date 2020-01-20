@@ -22,7 +22,7 @@ public:
 
 	void turnRight();
 	void turnLeft();
-	void move();
+	void m_move();
 
 private:
 	
@@ -33,9 +33,11 @@ private:
 
 	// steering behaviours
 	void m_seek();
+	
 	float m_maxSpeed;
 	double m_currentDirection;
 	float m_turnSpeed;
+	float m_steerForce;
 	glm::vec2 m_target;
 };
 

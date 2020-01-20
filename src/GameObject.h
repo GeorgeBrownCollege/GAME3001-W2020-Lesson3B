@@ -5,26 +5,10 @@
 #include <glm\vec2.hpp>
 #include <string>
 
-enum GameObjectType {
-	ISLAND,
-	PLAYER,
-	CLOUD,
-	BULLET,
-	ENEMY,
-	OCEAN,
-	SHIP,
-	TARGET,
-	NUM_OF_TYPES
-};
+#include "GameObjectType.h"
+#include "SteeringState.h"
 
-enum State {
-	IDLE,
-	SEEK,
-	ARRIVE,
-	AVOID,
-	FLEE,
-	NUM_OF_STATES
-};
+
 
 class GameObject {
 public:
@@ -50,7 +34,7 @@ public:
 	int getHeight();
 	bool getIsColliding();
 	GameObjectType getType();
-	State getState();
+	SteeringState getState();
 
 	// setters for common variables
 	void setPosition(glm::vec2 newPosition);
@@ -59,7 +43,8 @@ public:
 	void setVelocity(glm::vec2 newVelocity);
 	void setIsColliding(bool collision);
 	void setType(GameObjectType newType);
-	void setState(State newState);
+	void setState(SteeringState newState);
+	void setAcceleration(glm::vec2 newAcceleration);
 
 
 private:
@@ -85,7 +70,7 @@ private:
 	// collision variables
 	bool m_isColliding;
 	GameObjectType m_type;
-	State m_state;
+	SteeringState m_state;
 };
 
 #endif

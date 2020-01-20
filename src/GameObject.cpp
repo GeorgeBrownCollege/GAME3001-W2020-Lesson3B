@@ -59,7 +59,7 @@ GameObjectType GameObject::getType()
 	return m_type;
 }
 
-State GameObject::getState()
+SteeringState GameObject::getState()
 {
 	return m_state;
 }
@@ -95,7 +95,12 @@ void GameObject::setType(GameObjectType newType)
 	m_type = newType;
 }
 
-void GameObject::setState(State newState)
+void GameObject::setState(SteeringState newState)
 {
 	m_state = newState;
+}
+
+void GameObject::setAcceleration(glm::vec2 newAcceleration)
+{
+	m_acceleration = newAcceleration;
 }

@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Util.h"
 
 Game* Game::s_pInstance = 0;
 
@@ -27,15 +28,6 @@ Game::~Game()
 
 void Game::createGameObjects()
 {
-	/*m_pPlayer = new Player();
-	m_pIsland = new Island();
-	m_pOcean = new Ocean();
-
-	for (size_t i = 0; i < m_cloudNum; i++)
-	{
-		m_pClouds.push_back(new Cloud());
-	}
-	*/
 	m_pShip = new ship();
 
 	m_pTarget = new Target();
@@ -100,36 +92,22 @@ void Game::render()
 {
 	SDL_RenderClear(m_pRenderer); // clear the renderer to the draw colour
 
-	/*m_pOcean->draw();
-	m_pIsland->draw();
-	m_pPlayer->draw();
-
-	for (Cloud* cloud : m_pClouds) {
-		cloud->draw();
-	}
-	*/
-
 	m_pTarget->draw();
 	m_pShip->draw();
-
-	
 
 	SDL_RenderPresent(m_pRenderer); // draw to the screen
 }
 
 void Game::update()
 {
-	/*m_pPlayer->update();
-	m_pIsland->update();
-	m_pOcean->update();
-	
-	Collision::squaredRadiusCheck(m_pPlayer, m_pIsland);
+	glm::vec2 steeringVelocity = m_pTarget->getPosition() - m_pShip->getPosition();
+	steeringVelocity = Util::normalize(steeringVelocity);
 
-	for (Cloud* cloud : m_pClouds) {
-		cloud->update();
-		Collision::squaredRadiusCheck(m_pPlayer, cloud);
-	}
-	*/
+	
+	m_pShip->setVelocity(steeringVelocity);
+
+	
+	
 	m_pShip->update();
 
 	m_pTarget->update();
@@ -178,19 +156,25 @@ void Game::handleEvents()
 					m_pTarget->setVelocity(glm::vec2(1.0f, m_pTarget->getVelocity().y));
 					break;
 				case SDLK_0:
-					m_pShip->setState(State::IDLE);
+					m_pShip->setState(SteeringState::IDLE);
 					break;
 				case SDLK_1:
-					m_pShip->setState(State::SEEK);
+					m_pShip->setState(SteeringState::SEEK);
 					break;
 				case SDLK_2:
-					m_pShip->setState(State::ARRIVE);
+					m_pShip->setState(SteeringState::ARRIVE);
 					break;
 				case SDLK_3:
-					m_pShip->setState(State::AVOID);
+					m_pShip->setState(SteeringState::AVOID);
 					break;
 				case SDLK_4:
-					m_pShip->setState(State::FLEE);
+					m_pShip->setState(SteeringState::FLEE);
+					break;
+				case SDLK_RIGHT:
+					m_pShip->turnRight();
+					break;
+				case SDLK_LEFT:
+					m_pShip->turnLeft();
 					break;
 
 			}

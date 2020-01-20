@@ -243,3 +243,21 @@ glm::vec2 Util::normalize(glm::vec2 vec)
 	}
 	return dest;
 }
+
+/**
+* Returns the angle in degrees between from and to.
+*/
+float Util::angle(glm::vec2 from, glm::vec2 to)
+{
+	return acos(Util::clamp(Util::dot(Util::normalize(from), Util::normalize(to)), -1.0f, 1.0f)) * 57.29578f;
+}
+
+/**
+* Dot Product of two vectors.
+*/
+float Util::dot(glm::vec2 lhs, glm::vec2 rhs)
+{
+	return lhs.x * rhs.x + lhs.y * rhs.y;
+}
+
+
